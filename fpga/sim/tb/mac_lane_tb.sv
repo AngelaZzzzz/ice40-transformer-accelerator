@@ -5,7 +5,10 @@
 //   Testbench for mac_lane
 ////////////////////////////////////////////////////////////////////////////////
 
-// Self-checking. A cycle-exact model predicts acc after every clock edge
+// Self-checking. Compile with sim/models/pmi_dsp.sv (or with Radiant's
+// ip/pmi/pmi_dsp.v and its iCE40UP simulation library; both pass).
+//
+// A cycle-exact model predicts acc after every clock edge
 // from the input history, using the documented latency: inputs driven
 // before edge k reach acc after edge k + 3, and rst at edge k clears acc
 // and discards the inputs from the three cycles still in flight. acc is

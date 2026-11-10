@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Self-checking. Compile with gpt_pkg.sv, sim/models/SP256K.sv,
-// spram_mem.sv, mac_lane.sv and requant.sv.
+// sim/models/pmi_dsp.sv, spram_mem.sv, mac_lane.sv and requant.sv.
 //
 // The real spram_mem (with the SP256K model) is filled with random words
 // over its SPI port. The vector-register file and score buffer are
