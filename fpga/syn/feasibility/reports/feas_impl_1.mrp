@@ -8,7 +8,7 @@ Package: SG48
 Performance Grade:  High-Performance_1.2V
 
 Mapper:    version Radiant Software (64-bit) 2026.1.0.37.0
-Mapped on: Mon Nov  9 23:00:32 2026
+Mapped on: Mon Nov  9 23:19:28 2026
 
 Design Information
 ------------------
@@ -21,11 +21,11 @@ Command line:   map -pdc C:/Users/angzheng/ice40-transformer-accelerator/fpga/sy
 Design Summary
 --------------
 
-   Number of slice registers: 871 out of  5280 (16%)
+   Number of slice registers: 631 out of  5280 (12%)
    Number of I/O registers:      1 out of   117 (1%)
-   Number of LUT4s:           1548 out of  5280 (29%)
-      Number of logic LUT4s:             787
-      Number of inserted feedthru LUT4s: 425
+   Number of LUT4s:           1309 out of  5280 (25%)
+      Number of logic LUT4s:             788
+      Number of inserted feedthru LUT4s: 185
       Number of replicated LUT4s:         14
       Number of ripple logic:            161 (322 LUT4s)
    Number of IO sites used:   1 out of 39 (3%)
@@ -50,16 +50,16 @@ Design Summary
    Number of EBRs:             0 out of 30 (0%)
    Number of PLLs:             0 out of 1 (0%)
    Number of Clocks:  1
-      Net clk: 735 loads, 735 rising, 0 falling (Driver: Pin hf_osc/CLKHF)
+      Net clk: 502 loads, 502 rising, 0 falling (Driver: Pin hf_osc/CLKHF)
    Number of Clock Enables:  18
-      Net VCC_net: 2 loads, 0 SLICEs
+      Net VCC_net: 9 loads, 0 SLICEs
+      Net n2364: 17 loads, 17 SLICEs
       Net spram.bytemask[5]: 2 loads, 0 SLICEs
       Net spram.bytemask[4]: 2 loads, 0 SLICEs
       Net spram.we: 4 loads, 0 SLICEs
       Net spram.bytemask[7]: 2 loads, 0 SLICEs
       Net spram.bytemask[6]: 2 loads, 0 SLICEs
       Net spram.bytemask[1]: 2 loads, 0 SLICEs
-      Net spram.bytemask[0]: 2 loads, 0 SLICEs
 
                                     Page 1
 
@@ -69,37 +69,37 @@ Design Summary
 
 Design Summary (cont)
 ---------------------
+      Net spram.bytemask[0]: 2 loads, 0 SLICEs
       Net spram.bytemask[2]: 2 loads, 0 SLICEs
       Net spram.bytemask[3]: 2 loads, 0 SLICEs
-      Net n2393: 17 loads, 17 SLICEs
-      Net n2517: 17 loads, 17 SLICEs
-      Net n2424: 17 loads, 17 SLICEs
-      Net n2344: 17 loads, 17 SLICEs
-      Net n2362: 17 loads, 17 SLICEs
-      Net n2455: 17 loads, 17 SLICEs
-      Net n2486: 17 loads, 17 SLICEs
-      Net n2535: 17 loads, 17 SLICEs
+      Net n2457: 17 loads, 17 SLICEs
+      Net n2395: 17 loads, 17 SLICEs
+      Net n2488: 17 loads, 17 SLICEs
+      Net n2333: 17 loads, 17 SLICEs
+      Net n2315: 17 loads, 17 SLICEs
+      Net n2426: 17 loads, 17 SLICEs
+      Net n2506: 17 loads, 17 SLICEs
    Number of LSRs:  9
-      Net por_cnt_3__N_650: 196 loads, 196 SLICEs
-      Net rq.n1726: 1 loads, 1 SLICEs
-      Net rq.n1730: 1 loads, 1 SLICEs
-      Net rq.n1724: 1 loads, 1 SLICEs
+      Net por_cnt_3__N_482: 196 loads, 196 SLICEs
+      Net rq.n1697: 1 loads, 1 SLICEs
+      Net rq.n1701: 1 loads, 1 SLICEs
       Net rq.n13: 1 loads, 1 SLICEs
-      Net rq.n4751: 1 loads, 1 SLICEs
-      Net rq.n1735: 1 loads, 1 SLICEs
-      Net rq.n1740: 1 loads, 1 SLICEs
-      Net rq.n1728: 1 loads, 1 SLICEs
+      Net rq.n4722: 1 loads, 1 SLICEs
+      Net rq.n1695: 1 loads, 1 SLICEs
+      Net rq.n1706: 1 loads, 1 SLICEs
+      Net rq.n1711: 1 loads, 1 SLICEs
+      Net rq.n1699: 1 loads, 1 SLICEs
    Top 10 highest fanout non-clock nets:
-      Net por_cnt_3__N_650: 196 loads
-      Net cnt[1]: 112 loads
+      Net por_cnt_3__N_482: 196 loads
+      Net cnt[1]: 109 loads
       Net lfsr[0]: 92 loads
-      Net cnt[0]: 78 loads
+      Net cnt[0]: 80 loads
       Net por_cnt[3]: 61 loads
-      Net cnt[2]: 40 loads
+      Net cnt[2]: 41 loads
       Net rq.shift1[1]: 35 loads
       Net rq.shift1[2]: 35 loads
       Net rq.shift1[0]: 34 loads
-      Net l0_req: 32 loads
+      Net g_lane[0].lane.clr2: 32 loads
 
 
 
@@ -154,6 +154,8 @@ ASIC Components
 
 Instance Name: hf_osc
          Type: HFOSC
+Instance Name: g_lane[6].lane/mult/u_DSP_2
+         Type: DSP
 Instance Name: spram/g_blk[2].spram
          Type: SRAM
 Instance Name: spram/g_blk[3].spram
@@ -162,23 +164,21 @@ Instance Name: spram/g_blk[0].spram
          Type: SRAM
 Instance Name: spram/g_blk[1].spram
          Type: SRAM
+Instance Name: g_lane[0].lane/mult/u_DSP_2
+         Type: DSP
+Instance Name: g_lane[1].lane/mult/u_DSP_2
+         Type: DSP
+Instance Name: g_lane[2].lane/mult/u_DSP_2
+         Type: DSP
+Instance Name: g_lane[3].lane/mult/u_DSP_2
+         Type: DSP
+Instance Name: g_lane[4].lane/mult/u_DSP_2
+         Type: DSP
+Instance Name: g_lane[5].lane/mult/u_DSP_2
+         Type: DSP
 Instance Name: probe_i0
          Type: IOLOGIC
-Instance Name: g_lane[6].lane/mult_63
-         Type: DSP
-Instance Name: g_lane[4].lane/mult_61
-         Type: DSP
-Instance Name: g_lane[5].lane/mult_62
-         Type: DSP
-Instance Name: g_lane[3].lane/mult_60
-         Type: DSP
-Instance Name: g_lane[2].lane/mult_59
-         Type: DSP
-Instance Name: g_lane[0].lane/lane_a_0__0__I_0
-         Type: DSP
-Instance Name: g_lane[1].lane/mult_58
-         Type: DSP
-Instance Name: g_lane[7].lane/mult_64
+Instance Name: g_lane[7].lane/mult/u_DSP_2
          Type: DSP
 
 Constraint Summary
@@ -192,7 +192,7 @@ Run Time and Memory Usage
 
    Total CPU Time: 0 secs
    Total REAL Time: 0 secs
-   Peak Memory Usage: 89 MB
+   Peak Memory Usage: 86 MB
 
                                     Page 3
 
@@ -202,7 +202,7 @@ Run Time and Memory Usage
 
 Run Time and Memory Usage (cont)
 --------------------------------
-Checksum -- map: d04d397b27858e033fb32bdc4dde0201b5b3f692
+Checksum -- map: 240b4dc558cbeebdf68e6ad72d60da5c8068fcf0
 
 
 
