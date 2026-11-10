@@ -24,6 +24,11 @@
 //
 // The 32-bit sum does not overflow for the program's operands: at most 256
 // terms of int16 x int8, bounded by 2^30 (interface spec section 2).
+//
+// The en/clr pipeline registers carry syn_preserve so synthesis keeps one
+// copy per lane. The eight lanes' copies are identical, and when they were
+// merged in the feasibility build, one flip-flop drove all 256 accumulator
+// bits and its routing made this the second-slowest path (44.5 MHz).
 
 module mac_lane(input  logic               clk,
                 input  logic               rst,
@@ -35,7 +40,11 @@ module mac_lane(input  logic               clk,
 
     logic signed [15:0] a_r, b_r;
     logic signed [31:0] prod;
-    logic               en1, clr1, en2, clr2;
+
+    (* syn_preserve = 1 *) logic en1;
+    (* syn_preserve = 1 *) logic clr1;
+    (* syn_preserve = 1 *) logic en2;
+    (* syn_preserve = 1 *) logic clr2;
 
     // Stage 1: input registers
     always_ff @(posedge clk) begin

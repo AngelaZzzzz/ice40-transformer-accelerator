@@ -20,7 +20,8 @@
 //   next group accumulates (C >= 8 cycles, so the drain always finishes in
 //   time), and each result is written to the vector registers or score
 //   buffer. done pulses the cycle after the last write.
-// Cycles per MATVEC: (R/8) x C issue cycles plus 19 cycles of fill/drain.
+// Cycles per MATVEC: (R/8) x C issue cycles plus 20 cycles of fill/drain
+// (requant latency 4).
 //
 // Lane 0 borrow (spec section 6): while l0_req = 1, lane 0 takes l0_a,
 // l0_b, l0_en, l0_clr directly; l0_acc follows 3 cycles after the inputs
