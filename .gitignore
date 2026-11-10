@@ -1,0 +1,30 @@
+# Radiant build output
+fpga/syn/**/impl_*/
+fpga/syn/**/*.dir/
+fpga/syn/**/*.sty
+fpga/syn/**/*.log
+fpga/syn/**/.recovery/
+*.bak
+
+# Simulation output
+fpga/sim/vectors/
+fpga/sim/**/work/
+transcript
+*.wlf
+*.vcd
+*.vvp
+modelsim.ini
+
+# Data generated from model/ (not committed)
+fpga/mem/spram.mem
+fpga/mem/prog.mem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# MCU build output (SEGGER Embedded Studio)
+mcu/**/Output/
+mcu/**/*.jlink
+mcu/**/*.emSession
