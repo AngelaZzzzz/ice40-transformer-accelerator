@@ -1,0 +1,7 @@
+ldc_set_location -site {43} [get_ports rst_n]
+ldc_set_location -site {26} [get_ports sck]
+ldc_set_location -site {10} [get_ports mosi]
+ldc_set_location -site {12} [get_ports miso]
+ldc_set_location -site {20} [get_ports cs_n]
+ldc_set_location -site {27} [get_ports done]
+ldc_set_location -site {42} [get_ports led]

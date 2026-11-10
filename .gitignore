@@ -28,3 +28,6 @@ __pycache__/
 mcu/**/Output/
 mcu/**/*.jlink
 mcu/**/*.emSession
+
+# Linter configuration (local)
+.svlint.toml

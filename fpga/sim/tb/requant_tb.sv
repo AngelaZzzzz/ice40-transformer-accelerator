@@ -1,4 +1,4 @@
-// tb_requant.sv
+// requant_tb.sv
 // Angela Zheng, 2026-11-09
 //
 // Self-checking testbench for requant.sv. The reference model below
@@ -15,7 +15,7 @@
 
 `timescale 1ns/1ps
 
-module tb_requant;
+module requant_tb;
 
   logic               clk = 1'b0;
   logic               rst;
