@@ -312,21 +312,21 @@ module gpt_top
         .rcp_addr(rcp_addr)
     );
 
-    lut_rom #(.INIT_FILE("../mem/rsqrt_lut.mem")) rsqrt_rom(
+    lut_rom #(.INIT_FILE("rsqrt_lut.mem")) rsqrt_rom(
         .clk(clk),
         .rst(rst),
         .addr(rsqrt_addr),
         .data(rsqrt_data)
     );
 
-    lut_rom #(.INIT_FILE("../mem/exp_lut.mem")) exp_rom(
+    lut_rom #(.INIT_FILE("exp_lut.mem")) exp_rom(
         .clk(clk),
         .rst(rst),
         .addr(exp_addr),
         .data(exp_data)
     );
 
-    lut_rom #(.INIT_FILE("../mem/recip_lut.mem")) rcp_rom(
+    lut_rom #(.INIT_FILE("recip_lut.mem")) rcp_rom(
         .clk(clk),
         .rst(rst),
         .addr(rcp_addr),

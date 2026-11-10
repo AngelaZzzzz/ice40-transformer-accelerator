@@ -1,3 +1,5 @@
+"""Model shape and repository paths shared by all model scripts."""
+
 from pathlib import Path
 
 MODEL_DIR = Path(__file__).resolve().parent
