@@ -1,0 +1,2 @@
+# Feasibility build constraints: 48 MHz target on the HSOSC clock
+create_clock -name {clk} -period 20.833 [get_nets clk]

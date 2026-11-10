@@ -1,4 +1,5 @@
 # Radiant build output
+fpga/syn/**/build/
 fpga/syn/**/impl_*/
 fpga/syn/**/*.dir/
 fpga/syn/**/*.sty
