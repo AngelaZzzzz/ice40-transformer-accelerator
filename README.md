@@ -10,7 +10,7 @@ E155 final project: a 2-layer character-level transformer running on an iCE40UP5
 |---|---|---|
 | `docs/interface_spec.md` | interface contract between both halves (authoritative) | both |
 | `fpga/rtl/gpt_pkg.sv` | shared constants, instruction format | Zach |
-| `fpga/rtl/top.sv` | top-level wiring | shared |
+| `fpga/rtl/gpt_top.sv` | top-level wiring | shared |
 | `fpga/rtl/spi_test_top.sv` | SPI hardware bring-up top | Zach |
 | `fpga/rtl/exec/` | MAC lanes, MATVEC, requantize, vecop, KVSTORE | Angela |
 | `fpga/rtl/mem/` | SPRAM wrapper, vector registers, score buffer | Angela |

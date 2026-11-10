@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
-// top
+// gpt_top
 //   Accelerator top level: clocks, resets, SPI control, sequencer, execution
 //   units with OR-bus shared ports, memories and VGA text output
 ////////////////////////////////////////////////////////////////////////////////
 
-module top
+module gpt_top
     import gpt_pkg::*;
     (input  logic rst_n,
      input  logic sck,
