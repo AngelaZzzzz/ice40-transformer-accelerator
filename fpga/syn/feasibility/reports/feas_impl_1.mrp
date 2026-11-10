@@ -8,7 +8,7 @@ Package: SG48
 Performance Grade:  High-Performance_1.2V
 
 Mapper:    version Radiant Software (64-bit) 2026.1.0.37.0
-Mapped on: Mon Nov  9 22:41:43 2026
+Mapped on: Mon Nov  9 23:00:32 2026
 
 Design Information
 ------------------
@@ -21,11 +21,12 @@ Command line:   map -pdc C:/Users/angzheng/ice40-transformer-accelerator/fpga/sy
 Design Summary
 --------------
 
-   Number of slice registers: 789 out of  5280 (15%)
+   Number of slice registers: 871 out of  5280 (16%)
    Number of I/O registers:      1 out of   117 (1%)
-   Number of LUT4s:           1465 out of  5280 (28%)
-      Number of logic LUT4s:             776
-      Number of inserted feedthru LUT4s: 367
+   Number of LUT4s:           1548 out of  5280 (29%)
+      Number of logic LUT4s:             787
+      Number of inserted feedthru LUT4s: 425
+      Number of replicated LUT4s:         14
       Number of ripple logic:            161 (322 LUT4s)
    Number of IO sites used:   1 out of 39 (3%)
       Number of IO sites used for general PIO: 1
@@ -49,10 +50,9 @@ Design Summary
    Number of EBRs:             0 out of 30 (0%)
    Number of PLLs:             0 out of 1 (0%)
    Number of Clocks:  1
-      Net clk: 653 loads, 653 rising, 0 falling (Driver: Pin hf_osc/CLKHF)
-   Number of Clock Enables:  11
+      Net clk: 735 loads, 735 rising, 0 falling (Driver: Pin hf_osc/CLKHF)
+   Number of Clock Enables:  18
       Net VCC_net: 2 loads, 0 SLICEs
-      Net n2461: 136 loads, 136 SLICEs
       Net spram.bytemask[5]: 2 loads, 0 SLICEs
       Net spram.bytemask[4]: 2 loads, 0 SLICEs
       Net spram.we: 4 loads, 0 SLICEs
@@ -71,19 +71,35 @@ Design Summary (cont)
 ---------------------
       Net spram.bytemask[2]: 2 loads, 0 SLICEs
       Net spram.bytemask[3]: 2 loads, 0 SLICEs
-   Number of LSRs:  1
-      Net por_cnt_3__N_666: 183 loads, 183 SLICEs
+      Net n2393: 17 loads, 17 SLICEs
+      Net n2517: 17 loads, 17 SLICEs
+      Net n2424: 17 loads, 17 SLICEs
+      Net n2344: 17 loads, 17 SLICEs
+      Net n2362: 17 loads, 17 SLICEs
+      Net n2455: 17 loads, 17 SLICEs
+      Net n2486: 17 loads, 17 SLICEs
+      Net n2535: 17 loads, 17 SLICEs
+   Number of LSRs:  9
+      Net por_cnt_3__N_650: 196 loads, 196 SLICEs
+      Net rq.n1726: 1 loads, 1 SLICEs
+      Net rq.n1730: 1 loads, 1 SLICEs
+      Net rq.n1724: 1 loads, 1 SLICEs
+      Net rq.n13: 1 loads, 1 SLICEs
+      Net rq.n4751: 1 loads, 1 SLICEs
+      Net rq.n1735: 1 loads, 1 SLICEs
+      Net rq.n1740: 1 loads, 1 SLICEs
+      Net rq.n1728: 1 loads, 1 SLICEs
    Top 10 highest fanout non-clock nets:
-      Net clr2: 256 loads
-      Net por_cnt_3__N_666: 183 loads
-      Net n2461: 136 loads
-      Net cnt[1]: 115 loads
+      Net por_cnt_3__N_650: 196 loads
+      Net cnt[1]: 112 loads
       Net lfsr[0]: 92 loads
-      Net cnt[0]: 76 loads
-      Net cnt[2]: 39 loads
-      Net por_cnt[3]: 38 loads
+      Net cnt[0]: 78 loads
+      Net por_cnt[3]: 61 loads
+      Net cnt[2]: 40 loads
       Net rq.shift1[1]: 35 loads
       Net rq.shift1[2]: 35 loads
+      Net rq.shift1[0]: 34 loads
+      Net l0_req: 32 loads
 
 
 
@@ -108,6 +124,16 @@ IO (PIO) Attributes
 | probe               | OUTPUT    |           | O     |       |           |
 +---------------------+-----------+-----------+-------+-------+-----------+
 
+
+
+
+
+                                    Page 2
+
+
+
+
+
 Removed logic
 -------------
 
@@ -127,22 +153,7 @@ ASIC Components
 ---------------
 
 Instance Name: hf_osc
-
-                                    Page 2
-
-
-
-
-
-ASIC Components (cont)
-----------------------
          Type: HFOSC
-Instance Name: probe_i0
-         Type: IOLOGIC
-Instance Name: g_lane[6].lane/mult_62
-         Type: DSP
-Instance Name: g_lane[3].lane/mult_59
-         Type: DSP
 Instance Name: spram/g_blk[2].spram
          Type: SRAM
 Instance Name: spram/g_blk[3].spram
@@ -151,17 +162,23 @@ Instance Name: spram/g_blk[0].spram
          Type: SRAM
 Instance Name: spram/g_blk[1].spram
          Type: SRAM
-Instance Name: g_lane[4].lane/mult_60
+Instance Name: probe_i0
+         Type: IOLOGIC
+Instance Name: g_lane[6].lane/mult_63
          Type: DSP
-Instance Name: g_lane[5].lane/mult_61
+Instance Name: g_lane[4].lane/mult_61
          Type: DSP
-Instance Name: g_lane[2].lane/mult_58
+Instance Name: g_lane[5].lane/mult_62
          Type: DSP
-Instance Name: g_lane[1].lane/mult_57
+Instance Name: g_lane[3].lane/mult_60
          Type: DSP
-Instance Name: g_lane[7].lane/mult_63
+Instance Name: g_lane[2].lane/mult_59
          Type: DSP
 Instance Name: g_lane[0].lane/lane_a_0__0__I_0
+         Type: DSP
+Instance Name: g_lane[1].lane/mult_58
+         Type: DSP
+Instance Name: g_lane[7].lane/mult_64
          Type: DSP
 
 Constraint Summary
@@ -174,27 +191,76 @@ Run Time and Memory Usage
 -------------------------
 
    Total CPU Time: 0 secs
-   Total REAL Time: 4 secs
-   Peak Memory Usage: 88 MB
-Checksum -- map: 8781e6b2b1c66e419e7192d9dca021dfbece8027
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   Total REAL Time: 0 secs
+   Peak Memory Usage: 89 MB
 
                                     Page 3
+
+
+
+
+
+Run Time and Memory Usage (cont)
+--------------------------------
+Checksum -- map: d04d397b27858e033fb32bdc4dde0201b5b3f692
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    Page 4
 
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
