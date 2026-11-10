@@ -1,0 +1,208 @@
+
+                         Lattice Mapping Report File
+
+Design:  feas_top
+Family:  iCE40UP
+Device:  iCE40UP5K
+Package: SG48
+Performance Grade:  High-Performance_1.2V
+
+Mapper:    version Radiant Software (64-bit) 2026.1.0.37.0
+Mapped on: Mon Nov  9 22:41:43 2026
+
+Design Information
+------------------
+
+Command line:   map -pdc C:/Users/angzheng/ice40-transformer-accelerator/fpga/sy
+     n/feasibility/feas.pdc -i feas_impl_1_syn.udb -o feas_impl_1_map.udb -mp
+     feas_impl_1.mrp -hierrpt -gui -msgset C:/Users/angzheng/ice40-transformer-a
+     ccelerator/fpga/syn/feasibility/build/promote.xml
+
+Design Summary
+--------------
+
+   Number of slice registers: 789 out of  5280 (15%)
+   Number of I/O registers:      1 out of   117 (1%)
+   Number of LUT4s:           1465 out of  5280 (28%)
+      Number of logic LUT4s:             776
+      Number of inserted feedthru LUT4s: 367
+      Number of ripple logic:            161 (322 LUT4s)
+   Number of IO sites used:   1 out of 39 (3%)
+      Number of IO sites used for general PIO: 1
+      Number of IO sites used for I3C: 0 out of 2 (0%)
+      (note: If I3C is not used, its site can be used as general PIO)
+      Number of IO sites used for PIO+I3C: 1 out of 36 (3%)
+      Number of IO sites used for OD+RGB IO buffers: 0 out of 3 (0%)
+      (note: If RGB LED drivers are not used, sites can be used as OD outputs,
+       see TN1288 iCE40 LED Driver Usage Guide)
+      Number of IO sites used for PIO+I3C+OD+RGB: 1 out of 39 (3%)
+   Number of DSPs:             8 out of 8 (100%)
+   Number of I2Cs:             0 out of 2 (0%)
+   Number of High Speed OSCs:  1 out of 1 (100%)
+   Number of Low Speed OSCs:   0 out of 1 (0%)
+   Number of RGB PWM:          0 out of 1 (0%)
+   Number of RGB Drivers:      0 out of 1 (0%)
+   Number of SCL FILTERs:      0 out of 2 (0%)
+   Number of SRAMs:            4 out of 4 (100%)
+   Number of WARMBOOTs:        0 out of 1 (0%)
+   Number of SPIs:             0 out of 2 (0%)
+   Number of EBRs:             0 out of 30 (0%)
+   Number of PLLs:             0 out of 1 (0%)
+   Number of Clocks:  1
+      Net clk: 653 loads, 653 rising, 0 falling (Driver: Pin hf_osc/CLKHF)
+   Number of Clock Enables:  11
+      Net VCC_net: 2 loads, 0 SLICEs
+      Net n2461: 136 loads, 136 SLICEs
+      Net spram.bytemask[5]: 2 loads, 0 SLICEs
+      Net spram.bytemask[4]: 2 loads, 0 SLICEs
+      Net spram.we: 4 loads, 0 SLICEs
+      Net spram.bytemask[7]: 2 loads, 0 SLICEs
+      Net spram.bytemask[6]: 2 loads, 0 SLICEs
+      Net spram.bytemask[1]: 2 loads, 0 SLICEs
+      Net spram.bytemask[0]: 2 loads, 0 SLICEs
+
+                                    Page 1
+
+
+
+
+
+Design Summary (cont)
+---------------------
+      Net spram.bytemask[2]: 2 loads, 0 SLICEs
+      Net spram.bytemask[3]: 2 loads, 0 SLICEs
+   Number of LSRs:  1
+      Net por_cnt_3__N_666: 183 loads, 183 SLICEs
+   Top 10 highest fanout non-clock nets:
+      Net clr2: 256 loads
+      Net por_cnt_3__N_666: 183 loads
+      Net n2461: 136 loads
+      Net cnt[1]: 115 loads
+      Net lfsr[0]: 92 loads
+      Net cnt[0]: 76 loads
+      Net cnt[2]: 39 loads
+      Net por_cnt[3]: 38 loads
+      Net rq.shift1[1]: 35 loads
+      Net rq.shift1[2]: 35 loads
+
+
+
+
+
+   Number of warnings:  0
+   Number of criticals: 0
+   Number of errors:    0
+
+Design Errors/Criticals/Warnings
+--------------------------------
+
+   No error, critical, or warning presents.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+-------+-------+-----------+
+| IO Name             | Direction | Levelmode |  IO   |  IO   | Special   |
+|                     |           |  IO_TYPE  |  REG  |  DDR  | IO Buffer |
++---------------------+-----------+-----------+-------+-------+-----------+
+| probe               | OUTPUT    |           | O     |       |           |
++---------------------+-----------+-----------+-------+-------+-----------+
+
+Removed logic
+-------------
+
+Block i1 was optimized away.
+
+OSC Summary
+-----------
+
+OSC 1:                                 Pin/Node Value
+  OSC Instance Name:                            hf_osc
+  Power UP:                            NODE     VCC_net
+  Enable Signal:                       NODE     VCC_net
+  OSC Output:                          NODE     clk
+  DIV Setting:                                  00
+
+ASIC Components
+---------------
+
+Instance Name: hf_osc
+
+                                    Page 2
+
+
+
+
+
+ASIC Components (cont)
+----------------------
+         Type: HFOSC
+Instance Name: probe_i0
+         Type: IOLOGIC
+Instance Name: g_lane[6].lane/mult_62
+         Type: DSP
+Instance Name: g_lane[3].lane/mult_59
+         Type: DSP
+Instance Name: spram/g_blk[2].spram
+         Type: SRAM
+Instance Name: spram/g_blk[3].spram
+         Type: SRAM
+Instance Name: spram/g_blk[0].spram
+         Type: SRAM
+Instance Name: spram/g_blk[1].spram
+         Type: SRAM
+Instance Name: g_lane[4].lane/mult_60
+         Type: DSP
+Instance Name: g_lane[5].lane/mult_61
+         Type: DSP
+Instance Name: g_lane[2].lane/mult_58
+         Type: DSP
+Instance Name: g_lane[1].lane/mult_57
+         Type: DSP
+Instance Name: g_lane[7].lane/mult_63
+         Type: DSP
+Instance Name: g_lane[0].lane/lane_a_0__0__I_0
+         Type: DSP
+
+Constraint Summary
+------------------
+
+   Total number of constraints: 3
+   Total number of constraints dropped: 0
+
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 0 secs
+   Total REAL Time: 4 secs
+   Peak Memory Usage: 88 MB
+Checksum -- map: 8781e6b2b1c66e419e7192d9dca021dfbece8027
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    Page 3
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995
+     AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent
+     Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems
+     All rights reserved.
+Copyright (c) 2002-2026 Lattice Semiconductor
+     Corporation,  All rights reserved.
