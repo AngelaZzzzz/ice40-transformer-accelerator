@@ -40,3 +40,30 @@ Each file is a sequence of fixed-length cases. Header words pack small fields in
 | `vrelu.mem` | 64 | 64 inputs vr[448..511], 64 outputs vr[0..63] |
 
 Unit inputs are random, with the int16 edge values -32768, -32767, -1, 0, 1, 32766 and 32767 at the start of each input vector, scaled by a random right shift so that every magnitude range occurs.
+
+## Running the testbenches
+
+All testbenches use Icarus Verilog and print `PASSED` or `FAILED: n errors` on their last line. Run from `fpga/` (`lut_rom_tb` runs `vvp` from `fpga/mem` so that `exp_lut.mem` is found):
+
+```
+iverilog -g2012 -o spi_slave_tb.vvp sim/tb/spi_slave_tb.sv sim/models/spi_master_bfm.sv rtl/ctrl/spi_slave.sv rtl/ctrl/synchronizer.sv
+vvp -n spi_slave_tb.vvp
+
+iverilog -g2012 -o cmd_decoder_tb.vvp sim/tb/cmd_decoder_tb.sv sim/models/spi_master_bfm.sv rtl/ctrl/spi_slave.sv rtl/ctrl/cmd_decoder.sv rtl/ctrl/synchronizer.sv
+vvp -n cmd_decoder_tb.vvp
+
+iverilog -g2012 -o spi_test_top_tb.vvp sim/tb/spi_test_top_tb.sv sim/models/spi_master_bfm.sv sim/models/HSOSC.sv rtl/spi_test_top.sv rtl/ctrl/reset_gen.sv rtl/ctrl/synchronizer.sv rtl/ctrl/spi_slave.sv rtl/ctrl/cmd_decoder.sv
+vvp -n spi_test_top_tb.vvp
+
+iverilog -g2012 -o lut_rom_tb.vvp sim/tb/lut_rom_tb.sv rtl/ctrl/lut_rom.sv
+cd mem && vvp -n ../lut_rom_tb.vvp
+```
+
+`sim/models/` holds simulation-only models (`HSOSC`, `SP256K`, and the SPI master bus-functional model `spi_master_bfm`); they are never added to a synthesis project.
+
+The PS/2 decoder has a host-side C test, run from the repository root:
+
+```
+gcc -std=c99 -Wall -Wextra -I mcu/src mcu/test/ps2_decode_test.c mcu/src/ps2_decode.c -o ps2_decode_test
+./ps2_decode_test
+```

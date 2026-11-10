@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // synchronizer
-//   Two-flop synchronizer for a WIDTH-bit asynchronous input
+//   Two-flop synchronizer for a WIDTH-bit asynchronous input; resets to 0
 ////////////////////////////////////////////////////////////////////////////////
 
 module synchronizer #(
@@ -13,8 +13,16 @@ module synchronizer #(
     output logic [WIDTH-1:0] q
 );
 
-    // TODO(zach): implement per docs/interface_spec.md section 1
+    logic [WIDTH-1:0] meta;
 
-    assign q = '0;
+    always_ff @(posedge clk) begin
+        if (rst) begin
+            meta <= '0;
+            q <= '0;
+        end else begin
+            meta <= d;
+            q <= meta;
+        end
+    end
 
 endmodule

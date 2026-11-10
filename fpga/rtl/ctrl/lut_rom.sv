@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // lut_rom
-//   256 x 16-bit lookup table ROM, 1 EBR, 1-cycle read
+//   256 x 16-bit lookup table ROM loaded from INIT_FILE, 1 EBR, 1-cycle read
 ////////////////////////////////////////////////////////////////////////////////
 
 module lut_rom #(
@@ -13,8 +13,12 @@ module lut_rom #(
     output logic [15:0] data
 );
 
-    // TODO(zach): implement per docs/interface_spec.md section 3
+    logic [15:0] rom [0:255];
 
-    assign data = '0;
+    initial $readmemh(INIT_FILE, rom);
+
+    always_ff @(posedge clk) begin
+        data <= rom[addr];
+    end
 
 endmodule
