@@ -1,0 +1,13 @@
+# VGA demo constraints: pins (interface spec section 8) and clocks
+ldc_set_location -site {44} [get_ports vga_hs]
+ldc_set_location -site {45} [get_ports vga_vs]
+ldc_set_location -site {46} [get_ports vga_r]
+ldc_set_location -site {47} [get_ports vga_g]
+ldc_set_location -site {48} [get_ports vga_b]
+
+# 48 MHz HSOSC core clock and 25 MHz PLL pixel clock. The only crossings
+# are the text buffer (EBR, separate read and write clocks) and the
+# synchronized resets and scroll value, so the clocks are asynchronous.
+create_clock -name {clk} -period 20.833 [get_nets clk]
+create_clock -name {pix_clk} -period 40.0 [get_nets pix_clk]
+set_clock_groups -asynchronous -group [get_clocks clk] -group [get_clocks pix_clk]

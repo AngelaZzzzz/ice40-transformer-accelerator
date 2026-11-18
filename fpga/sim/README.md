@@ -77,6 +77,9 @@ iverilog -g2012 -o font_rom_tb.vvp sim/tb/font_rom_tb.sv rtl/vga/font_rom.sv
 iverilog -g2012 -o text_buffer_tb.vvp sim/tb/text_buffer_tb.sv rtl/vga/text_buffer.sv
 iverilog -g2012 -o text_renderer_tb.vvp sim/tb/text_renderer_tb.sv rtl/vga/text_renderer.sv rtl/vga/vga_timing.sv rtl/vga/text_buffer.sv rtl/vga/font_rom.sv
 cd mem && vvp -n ../font_rom_tb.vvp && vvp -n ../text_buffer_tb.vvp && vvp -n ../text_renderer_tb.vvp
+
+iverilog -g2012 -o vga_demo_top_tb.vvp sim/tb/vga_demo_top_tb.sv syn/vga_demo/vga_demo_top.sv sim/models/HSOSC.sv sim/models/PLL_B.sv rtl/ctrl/reset_gen.sv rtl/ctrl/synchronizer.sv rtl/vga/*.sv
+cd mem && vvp -n ../vga_demo_top_tb.vvp
 ```
 
 The PS/2 decoder has a host-side C test, run from the repository root:
