@@ -32,3 +32,4 @@ mcu/**/*.emSession
 
 # Linter configuration (local)
 .svlint.toml
+fpga/mem/*.ppm

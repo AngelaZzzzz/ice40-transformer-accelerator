@@ -59,7 +59,25 @@ iverilog -g2012 -o lut_rom_tb.vvp sim/tb/lut_rom_tb.sv rtl/ctrl/lut_rom.sv
 cd mem && vvp -n ../lut_rom_tb.vvp
 ```
 
-`sim/models/` holds simulation-only models (`HSOSC`, `SP256K`, and the SPI master bus-functional model `spi_master_bfm`); they are never added to a synthesis project.
+`sim/models/` holds simulation-only models (`HSOSC`, `PLL_B`, `SP256K`, and the SPI master bus-functional model `spi_master_bfm`); they are never added to a synthesis project.
+
+VGA testbenches (`font_rom_tb`, `text_buffer_tb` and `text_renderer_tb` read `font.mem`, so they run `vvp` from `fpga/mem`; `text_renderer_tb` also writes one rendered frame to `text_renderer_tb.ppm` there (gitignored), which can be opened in an image viewer). `fpga/mem/font.mem` is written by `python tools/make_font.py unscii-16.hex` from the public-domain unscii-16 font (http://viznut.fi/unscii/unscii-16.hex):
+
+```
+iverilog -g2012 -o vga_timing_tb.vvp sim/tb/vga_timing_tb.sv rtl/vga/vga_timing.sv
+vvp -n vga_timing_tb.vvp
+
+iverilog -g2012 -o vga_pll_tb.vvp sim/tb/vga_pll_tb.sv rtl/vga/vga_pll.sv sim/models/PLL_B.sv
+vvp -n vga_pll_tb.vvp
+
+iverilog -g2012 -o scroll_cdc_tb.vvp sim/tb/scroll_cdc_tb.sv rtl/vga/scroll_cdc.sv rtl/ctrl/synchronizer.sv
+vvp -n scroll_cdc_tb.vvp
+
+iverilog -g2012 -o font_rom_tb.vvp sim/tb/font_rom_tb.sv rtl/vga/font_rom.sv
+iverilog -g2012 -o text_buffer_tb.vvp sim/tb/text_buffer_tb.sv rtl/vga/text_buffer.sv
+iverilog -g2012 -o text_renderer_tb.vvp sim/tb/text_renderer_tb.sv rtl/vga/text_renderer.sv rtl/vga/vga_timing.sv rtl/vga/text_buffer.sv rtl/vga/font_rom.sv
+cd mem && vvp -n ../font_rom_tb.vvp && vvp -n ../text_buffer_tb.vvp && vvp -n ../text_renderer_tb.vvp
+```
 
 The PS/2 decoder has a host-side C test, run from the repository root:
 
