@@ -28,6 +28,8 @@ module vga_pll(input  logic ref_clk,
                output logic pix_clk,
                output logic lock);
 
+    logic fb;
+
     PLL_B #(
         .FEEDBACK_PATH("SIMPLE"),
         .PLLOUT_SELECT_PORTA("GENCLK"),
@@ -38,7 +40,7 @@ module vga_pll(input  logic ref_clk,
         .FILTER_RANGE("1")
     ) pll(
         .REFERENCECLK(ref_clk),
-        .FEEDBACK(1'b0),
+        .FEEDBACK(fb),
         .DYNAMICDELAY7(1'b0),
         .DYNAMICDELAY6(1'b0),
         .DYNAMICDELAY5(1'b0),
@@ -52,7 +54,7 @@ module vga_pll(input  logic ref_clk,
         .SCLK(1'b0),
         .SDI(1'b0),
         .LATCH(1'b0),
-        .INTFBOUT(),
+        .INTFBOUT(fb),
         .OUTCORE(),
         .OUTGLOBAL(pix_clk),
         .OUTCOREB(),
