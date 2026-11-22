@@ -7,8 +7,8 @@
 
 // Self-checking. Two instances run side by side:
 //   std: the default 800 x 525 timing (interface spec section 8);
-//   alt: a shortened horizontal total (640 + 16 + 96 + 11 = 763), the
-//        fallback for 24 MHz, to check that the parameters are honored.
+//   alt: a shortened horizontal total (640 + 16 + 96 + 11 = 763), to
+//        check that the parameters are honored.
 // Each instance is checked every cycle against counters kept by the
 // testbench: hcount/vcount sequence and wrap, hsync/vsync/blank decode,
 // and reset holding both counters at 0. Each sync's period and low width
@@ -104,7 +104,7 @@ module vga_timing_tb();
             c.vs_fall = -1;
         end else begin
             if (c.hs_q && !hs) begin
-                if (c.hs_fall >= 0) begin
+                if (c.hs_fall != -1) begin
                     if (cyc - c.hs_fall != h_tot)
                         err(name, $sformatf("hsync period %0d exp %0d",
                                             cyc - c.hs_fall, h_tot));
@@ -112,11 +112,11 @@ module vga_timing_tb();
                 end
                 c.hs_fall = cyc;
             end
-            if (!c.hs_q && hs && c.hs_fall >= 0 && cyc - c.hs_fall != 96)
+            if (!c.hs_q && hs && c.hs_fall != -1 && cyc - c.hs_fall != 96)
                 err(name, $sformatf("hsync width %0d exp 96",
                                     cyc - c.hs_fall));
             if (c.vs_q && !vs) begin
-                if (c.vs_fall >= 0) begin
+                if (c.vs_fall != -1) begin
                     if (cyc - c.vs_fall != h_tot * v_tot)
                         err(name, $sformatf("vsync period %0d exp %0d",
                                             cyc - c.vs_fall,
@@ -125,7 +125,7 @@ module vga_timing_tb();
                 end
                 c.vs_fall = cyc;
             end
-            if (!c.vs_q && vs && c.vs_fall >= 0 &&
+            if (!c.vs_q && vs && c.vs_fall != -1 &&
                 cyc - c.vs_fall != 2 * h_tot)
                 err(name, $sformatf("vsync width %0d exp %0d",
                                     cyc - c.vs_fall, 2 * h_tot));

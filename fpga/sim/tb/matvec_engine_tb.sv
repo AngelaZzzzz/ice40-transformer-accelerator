@@ -257,12 +257,12 @@ module matvec_engine_tb();
     endtask
 
     // Other opcodes must be ignored
-    task automatic run_other(input op_t op);
+    task automatic run_other(input logic [3:0] op);
         @(negedge clk);
         for (int i = 0; i < 1024; i++) exp_vr[i] = vr[i];
         n_done = 0;
         instr    = {$urandom, $urandom};
-        instr.op = op;
+        instr[47:44] = op;
         start = 1'b1;
         @(negedge clk);
         start = 1'b0;
@@ -360,7 +360,7 @@ module matvec_engine_tb();
 
         // Other opcodes, then lane 0 borrow, then random MATVECs
         for (int op = 0; op < 9; op++)
-            if (op != OP_MATVEC) run_other(op_t'(op));
+            if (op != OP_MATVEC) run_other(op[3:0]);
         run_borrow(3000);
         repeat (40) run_random();
         run_borrow(500);
