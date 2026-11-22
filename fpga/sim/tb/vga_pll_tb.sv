@@ -7,12 +7,10 @@
 
 // Self-checking, with sim/models/PLL_B.sv. Checks that:
 //   1. lock and pix_clk stay low while rst_n is low;
-//   2. lock rises after rst_n, and pix_clk then runs at 25.000 MHz from a
-//      48 MHz reference (period 40.000 ns, within 0.1%);
+//   2. lock rises after rst_n, and pix_clk then runs at 25.125 MHz from a
+//      12 MHz reference (period 39.801 ns, within 0.1%);
 //   3. pulling rst_n low drops lock and stops pix_clk, and the PLL locks
-//      again afterwards;
-//   4. with the reference 10% slow (43.2 MHz, the HSOSC tolerance),
-//      pix_clk scales with it to 22.5 MHz.
+//      again afterwards.
 //
 // Prints "TEST PASSED" or "TEST FAILED" on the last line.
 
@@ -22,7 +20,7 @@ module vga_pll_tb();
     logic    rst_n   = 1'b0;
     logic    pix_clk;
     logic    lock;
-    realtime half    = 10.4167;   // 48 MHz
+    realtime half    = 41.6665;   // 12 MHz
 
     int n_err = 0;
 
@@ -77,7 +75,7 @@ module vga_pll_tb();
         // 2. Lock and frequency
         rst_n = 1'b1;
         wait_lock();
-        measure(1000, 40.0);
+        measure(1000, 39.801);
 
         // 3. Reset again
         rst_n = 1'b0;
@@ -86,16 +84,7 @@ module vga_pll_tb();
         quiet(2_000);
         rst_n = 1'b1;
         wait_lock();
-        measure(1000, 40.0);
-
-        // 4. Reference 10% slow
-        rst_n = 1'b0;
-        half  = 10.4167 / 0.9;
-        #(1_000);
-        rst_n = 1'b1;
-        wait_lock();
-        repeat (10) @(posedge pix_clk);
-        measure(1000, 40.0 / 0.9);
+        measure(1000, 39.801);
 
         $display("vga_pll: %0d errors", n_err);
         if (n_err == 0) $display("TEST PASSED");

@@ -7,6 +7,7 @@
 module gpt_top
     import gpt_pkg::*;
     (input  logic rst_n,
+     input  logic clk_12m,
      input  logic sck,
      input  logic mosi,
      input  logic cs_n,
@@ -113,7 +114,7 @@ module gpt_top
     );
 
     vga_pll pll(
-        .ref_clk(clk),
+        .ref_clk(clk_12m),
         .rst_n(~rst),
         .pix_clk(pix_clk),
         .lock(pll_lock)

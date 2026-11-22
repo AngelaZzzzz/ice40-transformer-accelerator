@@ -6,8 +6,8 @@
 // Default timing (interface spec section 8): 800 x 525 pixel clocks,
 //   H: 640 active + 16 front porch + 96 sync + 48 back porch
 //   V: 480 active + 10 front porch +  2 sync + 33 back porch
-// with both syncs active low. At 25.000 MHz this is a 31.25 kHz line and a
-// 59.5 Hz frame.
+// with both syncs active low. At 25.125 MHz this is a 31.41 kHz line and a
+// 59.82 Hz frame.
 //
 // hcount and vcount are the position of the current pixel clock, counting
 // from the first active pixel. hsync, vsync and blank describe that same
@@ -15,9 +15,7 @@
 // together on each pix_clk edge). text_renderer registers them, so the
 // decode never reaches a pin directly.
 //
-// The porch and sync widths are parameters so that the horizontal total can
-// be adjusted if the monitor will not lock (spec section 8: keep the sync
-// widths and change the total so that pix_clk / H_TOTAL = 31.47 kHz).
+// The active, porch and sync widths are parameters with the defaults above.
 //
 // pix_rst holds both counters at 0 (the first active pixel).
 

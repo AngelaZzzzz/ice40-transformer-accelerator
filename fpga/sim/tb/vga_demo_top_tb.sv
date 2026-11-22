@@ -5,14 +5,15 @@
 //   Testbench for vga_demo_top
 ////////////////////////////////////////////////////////////////////////////////
 
-// Self-checking, end to end, with the HSOSC and PLL_B models. Run vvp from
-// fpga/mem (demo_text.mem and font.mem). Both builds of the demo run side
-// by side: PATTERN = 0 (text) and PATTERN = 1 (bars).
+// Self-checking, end to end, with the HSOSC and PLL_B models and a 12 MHz
+// clk_12m. Run vvp from fpga/mem (demo_text.mem and font.mem). Both builds
+// of the demo run side by side: PATTERN = 0 (text) and PATTERN = 1 (bars).
 //
 // Each is watched only through its five pins, the way a monitor sees it
 // (vga_monitor below): the monitor locks onto the falling edges of hsync
 // and vsync, rebuilds the pixel position from them, and checks
-//   - the hsync period (32.0 us at 25 MHz), the hsync width (96 pixels),
+//   - the hsync period (800 / 25.125 MHz = 31.840 us, within 0.1%), the
+//     hsync width (96 pixels),
 //     the vsync period (525 lines) and width (2 lines), and that vsync
 //     falls at the start of a line;
 //   - every visible pixel of two full frames against the image expected
@@ -24,10 +25,14 @@
 
 module vga_demo_top_tb();
 
+    logic clk_12m = 1'b0;
     logic t_hs, t_vs, t_r, t_g, t_b;
     logic p_hs, p_vs, p_r, p_g, p_b;
 
+    always #(41.6665) clk_12m = ~clk_12m;
+
     vga_demo_top #(.PATTERN(1'b0)) text_dut(
+        .clk_12m(clk_12m),
         .vga_hs(t_hs),
         .vga_vs(t_vs),
         .vga_r(t_r),
@@ -36,6 +41,7 @@ module vga_demo_top_tb();
     );
 
     vga_demo_top #(.PATTERN(1'b1)) bars_dut(
+        .clk_12m(clk_12m),
         .vga_hs(p_hs),
         .vga_vs(p_vs),
         .vga_r(p_r),
@@ -154,8 +160,8 @@ module vga_monitor #(
         if (hs_q && !hs) begin
             if (h_lock && hc != 655)
                 err($sformatf("hsync after %0d pixels", hc + 1 - 656));
-            if (h_lock && ($realtime - t_hfall < 31_990 ||
-                           $realtime - t_hfall > 32_010))
+            if (h_lock && ($realtime - t_hfall < 31_808 ||
+                           $realtime - t_hfall > 31_872))
                 err($sformatf("hsync period %.1f ns",
                               $realtime - t_hfall));
             t_hfall = $realtime;

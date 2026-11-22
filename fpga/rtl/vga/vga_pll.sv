@@ -1,22 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // vga_pll
-//   25 MHz pixel clock PLL from the core clock
+//   25.125 MHz pixel clock PLL from the 12 MHz oscillator
 ////////////////////////////////////////////////////////////////////////////////
 
 // One iCE40UP PLL_B (the primitive that Radiant's IP Catalog PLL wraps),
-// simple feedback, reference from the 48 MHz HSOSC core clock (interface
-// spec section 8):
-//   phase detector  48 MHz / (DIVR + 1)    = 48 / 3  = 16 MHz
-//   VCO             16 MHz x (DIVF + 1)    = 16 x 50 = 800 MHz
-//   pix_clk         800 MHz / 2^DIVQ       = 800 / 32 = 25.000 MHz
+// simple feedback (interface spec section 8). The reference is the
+// UPduino's 12 MHz oscillator, top-level input clk_12m on pin 35:
+//   phase detector  12 MHz / (DIVR + 1)    = 12 / 1   = 12 MHz
+//   VCO             12 MHz x (DIVF + 1)    = 12 x 67  = 804 MHz
+//   pix_clk         804 MHz / 2^DIVQ       = 804 / 32 = 25.125 MHz
 // FILTER_RANGE = 1 is the loop-filter setting Radiant's PLL generator uses
 // for a phase-detector frequency of 16 MHz or less. The VCO (533 to 1,066
-// MHz) and output (16 to 275 MHz) are within Radiant's limits.
-//
-// pix_clk follows the HSOSC, so its +/-10% tolerance carries through.
-// Radiant's generator accepts DIVF up to 127, so 25.125 MHz (closer to the
-// 25.175 MHz standard) is also possible: DIVR = 3, DIVF = 66, DIVQ = 5,
-// FILTER_RANGE = 1.
+// MHz) and output (16 to 275 MHz) are within Radiant's limits. The
+// oscillator is accurate to tens of ppm, so pix_clk is stable and within
+// 0.2% of the 25.175 MHz VGA standard.
 //
 // pix_clk drives a global clock net (OUTGLOBAL). lock rises once the PLL
 // has locked; gpt_top holds the pixel-clock logic in reset until then.
@@ -34,8 +31,8 @@ module vga_pll(input  logic ref_clk,
         .FEEDBACK_PATH("SIMPLE"),
         .PLLOUT_SELECT_PORTA("GENCLK"),
         .PLLOUT_SELECT_PORTB("GENCLK"),
-        .DIVR("2"),
-        .DIVF("49"),
+        .DIVR("0"),
+        .DIVF("66"),
         .DIVQ("5"),
         .FILTER_RANGE("1")
     ) pll(

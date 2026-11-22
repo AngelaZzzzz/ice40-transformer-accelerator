@@ -3,7 +3,7 @@
 ## 1. Conventions
 
 - Core clock `clk`: HSOSC at 48 MHz (CLKHF_DIV "0b00"). Nothing may depend on the exact frequency; the fallback is 24 MHz.
-- Pixel clock `pix_clk`: PLL from `clk` (section 8). Only VGA logic and the text buffer read port use it.
+- Pixel clock `pix_clk`: PLL from the UPduino's 12 MHz oscillator (`clk_12m`, P35) at 25.125 MHz (section 8). Only VGA logic and the text buffer read port use it.
 - Reset `rst`: active high, synchronous, from `reset_gen` (power-on hold plus the P43 button); `pix_rst` is `rst` synchronized into `pix_clk` and held until PLL lock.
 - Radiant primitives: SP256K (SPRAM), MAC16 via `pmi_dsp` or the IP Catalog, PLL from the IP Catalog, HSOSC.
 - Shared ports use an OR-bus: every unit drives all of its shared-port outputs (SPRAM core port, vector-register ports, score-buffer write, lane-0 borrow) to 0 whenever it is not executing, and `gpt_top` ORs them together. `done` outputs are ORed into `unit_done`.
@@ -189,8 +189,8 @@ DONE (P27 to PA6) is cleared by the `run` pulse at the end of RUN (while CS is s
 
 ## 8. VGA
 
-- `pix_clk`: Radiant IP Catalog PLL from `clk`, 25.000 MHz (expected DIVR = 2, DIVF = 49, DIVQ = 5; phase detector 16 MHz, VCO 800 MHz; DIVF is limited to 0..63).
-- Timing: 800 x 525 (H 640 + 16 + 96 + 48; V 480 + 10 + 2 + 33), syncs active low; 31.25 kHz line, 59.5 Hz frame. HSOSC is accurate to +/-10%; if the monitor will not lock, keep sync widths and adjust the horizontal total so that pix_clk / H_total = 31.47 kHz.
+- `pix_clk`: PLL_B from the 12 MHz oscillator on P35 (`clk_12m`), 25.125 MHz (DIVR = 0, DIVF = 66, DIVQ = 5, FILTER_RANGE = 1; phase detector 12 MHz, VCO 804 MHz).
+- Timing: 800 x 525 (H 640 + 16 + 96 + 48; V 480 + 10 + 2 + 33), syncs active low; 31.41 kHz line, 59.82 Hz frame.
 - Pins: HS P44, VS P45, R P46, G P47, B P48; R, G, B through 270 ohm.
 - Text: 40 x 15 cells, 8 x 16 glyphs at 2x (16 x 32 pixels). Screen row r shows memory row (r + scroll) mod 15; cell index = memrow x 40 + col.
 - Text buffer: 1,024 x 8 bits, 2 EBRs, write in `clk`, read in `pix_clk`; byte = {color, char[6:0]}, color 0 = typed (white), 1 = generated (green); 0x00 and 0x20 render blank.

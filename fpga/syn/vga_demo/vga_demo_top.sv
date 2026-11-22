@@ -4,11 +4,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // The VGA path of gpt_top on its own, with no MCU, SPI or accelerator:
-// HSOSC (48 MHz) -> vga_pll (25 MHz) -> vga_timing -> text_renderer, with
-// text_buffer loaded at power-up from demo_text.mem (written by
-// tools/make_demo_text.py) and font_rom from font.mem. Clocks and resets
-// are built the same way as in gpt_top. There is no reset pin: the design
-// resets once after configuration (reset_gen).
+// 12 MHz oscillator (clk_12m, pin 35) -> vga_pll (25.125 MHz) ->
+// vga_timing -> text_renderer, with text_buffer loaded at power-up from
+// demo_text.mem (written by tools/make_demo_text.py) and font_rom from
+// font.mem. Clocks and resets are built the same way as in gpt_top. There
+// is no reset pin: the design resets once after configuration
+// (reset_gen).
 //
 // PATTERN selects the output:
 //   0  text screen (the final design's renderer)
@@ -25,6 +26,8 @@
 module vga_demo_top #(
     parameter bit PATTERN = 1'b0
 ) (
+    input  logic clk_12m,
+
     output logic vga_hs,
     output logic vga_vs,
     output logic vga_r,
@@ -57,7 +60,7 @@ module vga_demo_top #(
     );
 
     vga_pll pll(
-        .ref_clk(clk),
+        .ref_clk(clk_12m),
         .rst_n(~rst),
         .pix_clk(pix_clk),
         .lock(pll_lock)
