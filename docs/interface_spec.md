@@ -160,7 +160,7 @@ SPI load and readback happen only while the sequencer is idle; `spram_mem` selec
 
 ## 5. Vector register file and score buffer
 
-- 1,024 x 16 bits in 4 EBRs; bank = addr[9:8]; each bank 1 read and 1 write port. Two reads in different banks may happen in one cycle; two reads of one bank in one cycle are a program error (assert in simulation).
+- 1,024 x 16 bits in 8 EBRs: two identical copies, both written on every write, one per read port. Any two addresses may be read in one cycle.
 - Map (words): x 0, xn 64, q 128, k 192 (bank 0); v 256, a 320, s 384, t 448 (bank 1); h 512 to 767 (bank 2); bank 3 free.
 - Ports: read A, read B, one write; read latency 1 cycle.
 - Score buffer: 32 x 16 bits, 1 EBR; written by MATVEC with ALT at 8g + l; read by the SPI decoder with 1-cycle latency.

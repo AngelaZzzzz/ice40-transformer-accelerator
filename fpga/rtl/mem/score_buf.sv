@@ -11,8 +11,11 @@ module score_buf(input  logic        clk,
                  input  logic [4:0]  raddr,
                  output logic [15:0] rdata);
 
-    // TODO(angela): implement per docs/interface_spec.md section 5
+    logic [15:0] mem [0:31];
 
-    assign rdata = '0;
+    always_ff @(posedge clk) begin
+        if (we) mem[waddr] <= wdata;
+        rdata <= mem[raddr];
+    end
 
 endmodule

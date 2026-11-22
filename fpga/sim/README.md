@@ -62,7 +62,12 @@ iverilog -g2012 -o sequencer_tb.vvp rtl/gpt_pkg.sv sim/tb/sequencer_tb.sv rtl/ct
 cd mem && vvp -n ../sequencer_tb.vvp
 ```
 
-`sequencer_tb` runs `vvp` from `fpga/mem` because it loads `prog.mem`.
+`sequencer_tb` runs `vvp` from `fpga/mem` because it loads `prog.mem`, and `vreg_file_tb` because it loads `bringup_vreg.mem`:
+
+```
+iverilog -g2012 -o vreg_file_tb.vvp sim/tb/vreg_file_tb.sv rtl/mem/vreg_file.sv
+cd mem && vvp -n ../vreg_file_tb.vvp
+```
 
 `sim/models/` holds simulation-only models (`HSOSC`, `PLL_B`, `SP256K`, and the SPI master bus-functional model `spi_master_bfm`); they are never added to a synthesis project.
 
