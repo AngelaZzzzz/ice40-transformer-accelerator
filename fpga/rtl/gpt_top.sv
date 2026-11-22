@@ -4,8 +4,14 @@
 //   units with OR-bus shared ports, memories and VGA text output
 ////////////////////////////////////////////////////////////////////////////////
 
+// VREG_INIT and TEXT_INIT, when set, preload the vector registers and the
+// text buffer at configuration (the bring-up build). led shows the
+// pixel-clock PLL lock.
+
 module gpt_top
     import gpt_pkg::*;
+    #(parameter VREG_INIT = "",
+      parameter TEXT_INIT = "")
     (input  logic rst_n,
      input  logic clk_12m,
      input  logic sck,
@@ -17,7 +23,8 @@ module gpt_top
      output logic vga_vs,
      output logic vga_r,
      output logic vga_g,
-     output logic vga_b);
+     output logic vga_b,
+     output logic led);
 
     localparam int V_ACTIVE = 480;
 
@@ -128,6 +135,10 @@ module gpt_top
     );
 
     assign pix_rst = ~pix_run;
+
+    always_ff @(posedge clk) begin
+        led <= pll_lock;
+    end
 
     // SPI slave and command decoder
     spi_slave spi(
@@ -373,7 +384,7 @@ module gpt_top
         .rdata(sp_rdata)
     );
 
-    vreg_file vregs(
+    vreg_file #(.INIT_FILE(VREG_INIT)) vregs(
         .clk(clk),
         .rst(rst),
         .ra_addr(ra_addr),
@@ -408,7 +419,7 @@ module gpt_top
         .blank(blank)
     );
 
-    text_buffer tbuf(
+    text_buffer #(.INIT_FILE(TEXT_INIT)) tbuf(
         .wclk(clk),
         .we(tb_we),
         .waddr(tb_addr),

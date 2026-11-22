@@ -11,6 +11,7 @@ ldc_set_location -site {45} [get_ports vga_vs]
 ldc_set_location -site {46} [get_ports vga_r]
 ldc_set_location -site {47} [get_ports vga_g]
 ldc_set_location -site {48} [get_ports vga_b]
+ldc_set_location -site {42} [get_ports led]
 
 create_clock -name {clk} -period 20.833 [get_nets clk]
 create_clock -name {clk_12m} -period 83.333 [get_ports clk_12m]

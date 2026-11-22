@@ -92,6 +92,15 @@ iverilog -g2012 -o vga_demo_top_tb.vvp sim/tb/vga_demo_top_tb.sv syn/vga_demo/vg
 cd mem && vvp -n ../vga_demo_top_tb.vvp
 ```
 
+## Bring-up
+
+`python tools/make_bringup.py` (from the repository root, after `python model/export.py`) writes `fpga/mem/bringup_vreg.mem` (the register file before the output-layer MATVEC for BOS at position 0), `fpga/mem/bringup_prog.mem` (that MATVEC and HALT), `fpga/mem/bringup_text.mem` (the power-up screen) and `mcu/src/bringup_data.h`. They are not gitignored, so the hardware can be built without Python. The bitstream from `fpga/syn/gpt_top/build.tcl` is `gpt_top` with `VREG_INIT = "bringup_vreg.mem"` and `TEXT_INIT = "bringup_text.mem"`. `gpt_top_tb` runs the bring-up sequence on it; it also reads `spram.mem` and `sim/vectors/prefix_empty/pos0_scores.mem`, which come from `python model/export.py`. Run `vvp` from `fpga/mem`:
+
+```
+iverilog -g2012 -o gpt_top_tb.vvp rtl/gpt_pkg.sv sim/tb/gpt_top_tb.sv rtl/gpt_top.sv rtl/ctrl/*.sv rtl/exec/*.sv rtl/mem/*.sv rtl/vga/*.sv sim/models/HSOSC.sv sim/models/PLL_B.sv sim/models/SP256K.sv sim/models/pmi_dsp.sv sim/models/spi_master_bfm.sv
+cd mem && vvp -n ../gpt_top_tb.vvp
+```
+
 ## Host C tests
 
 The PS/2 decoder and the next-letter sampler have host-side C tests, run from the repository root:

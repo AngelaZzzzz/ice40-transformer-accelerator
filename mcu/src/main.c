@@ -1,11 +1,12 @@
 // main.c
 // Transformer text generator host: keyboard input, FPGA inference, sampling
-// and display. MODE selects the SPI or PS/2 hardware test, or the
+// and display. MODE selects the SPI, PS/2 or bring-up hardware test, or the
 // application.
 
 #include <stdio.h>
 
 #include "STM32L432KC.h"
+#include "bringup.h"
 #include "display.h"
 #include "fpga.h"
 #include "generate.h"
@@ -17,6 +18,7 @@
 #define MODE_APP      0
 #define MODE_SPI_TEST 1
 #define MODE_PS2_TEST 2
+#define MODE_BRINGUP  3
 
 #ifndef MODE
 #define MODE MODE_APP
@@ -157,6 +159,10 @@ int main(void) {
         case MODE_PS2_TEST:
             ps2_init();
             ps2_test();
+            break;
+        case MODE_BRINGUP:
+            fpga_init();
+            bringup_run();
             break;
         default:
             app();

@@ -23,9 +23,11 @@ E155 final project: a 2-layer character-level transformer running on an iCE40UP5
 | `fpga/sim/models/` | simulation-only models of Lattice primitives | |
 | `fpga/syn/` | Radiant command-line build scripts | |
 | `fpga/syn/feasibility/` | feasibility synthesis top | Angela |
+| `fpga/syn/gpt_top/` | Radiant build of `gpt_top` with the bring-up preloads | Zach |
 | `model/` | training, bit-exact reference model, assembler | Zach |
 | `model/golden/` | small Python models of single instructions | Angela |
 | `mcu/` | MCU firmware | both |
 | `tools/` | helper scripts | |
+| `tools/make_bringup.py` | bring-up memory images and `mcu/src/bringup_data.h` | Zach |
 
 Generated files (test vectors, `spram.mem`, `prog.mem`, build output) are not committed; see `.gitignore`.
