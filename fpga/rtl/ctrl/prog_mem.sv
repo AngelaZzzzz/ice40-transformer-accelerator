@@ -11,8 +11,11 @@ module prog_mem(input  logic        clk,
                 input  logic [7:0]  raddr,
                 output logic [47:0] rdata);
 
-    // TODO(zach): implement per docs/interface_spec.md section 3
+    logic [47:0] mem [0:255];
 
-    assign rdata = '0;
+    always_ff @(posedge clk) begin
+        if (we) mem[waddr] <= wdata;
+        rdata <= mem[raddr];
+    end
 
 endmodule

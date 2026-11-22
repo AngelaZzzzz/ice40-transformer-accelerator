@@ -57,7 +57,12 @@ vvp -n spi_test_top_tb.vvp
 
 iverilog -g2012 -o lut_rom_tb.vvp sim/tb/lut_rom_tb.sv rtl/ctrl/lut_rom.sv
 cd mem && vvp -n ../lut_rom_tb.vvp
+
+iverilog -g2012 -o sequencer_tb.vvp rtl/gpt_pkg.sv sim/tb/sequencer_tb.sv rtl/ctrl/sequencer.sv rtl/ctrl/prog_mem.sv
+cd mem && vvp -n ../sequencer_tb.vvp
 ```
+
+`sequencer_tb` runs `vvp` from `fpga/mem` because it loads `prog.mem`.
 
 `sim/models/` holds simulation-only models (`HSOSC`, `PLL_B`, `SP256K`, and the SPI master bus-functional model `spi_master_bfm`); they are never added to a synthesis project.
 
