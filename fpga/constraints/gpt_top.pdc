@@ -1,4 +1,5 @@
 ldc_set_location -site {43} [get_ports rst_n]
+ldc_set_port -iobuf {PULLMODE=UP} [get_ports rst_n]
 ldc_set_location -site {35} [get_ports clk_12m]
 ldc_set_location -site {26} [get_ports sck]
 ldc_set_location -site {10} [get_ports mosi]

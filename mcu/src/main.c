@@ -24,7 +24,7 @@
 #define TEST_WORDS     256
 #define TEST_BYTES     (8 * TEST_WORDS)
 #define TEST_PASSES    5
-#define DONE_POLLS     100000
+#define DONE_TIMEOUT_US 1000
 #define N_SCORES       27
 #define SCORE_PATTERN  0xA5A5
 
@@ -56,11 +56,7 @@ static void spi_test(void) {
     }
 
     fpga_run(3, 2);
-    int polls = 0;
-    while (!fpga_done() && polls < DONE_POLLS) {
-        polls++;
-    }
-    if (!fpga_done()) {
+    if (!fpga_wait_done(DONE_TIMEOUT_US)) {
         printf("DONE did not go high after RUN\n");
         errors++;
     }

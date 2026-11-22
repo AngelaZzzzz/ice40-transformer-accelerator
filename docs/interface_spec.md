@@ -173,7 +173,9 @@ SPI load and readback happen only while the sequencer is idle; `spram_mem` selec
 
 ## 7. SPI commands
 
-Mode 0, 5 MHz, MSB first. CS low starts a command, CS high ends it. First byte is the opcode; multi-byte fields are MSB first.
+Mode 0, 5 MHz, MSB first. CS low starts a command, CS high ends it. First byte is the opcode; multi-byte fields are MSB first. The FPGA samples CS through a two-flop synchronizer at 48 MHz, so the MCU holds CS low at least 1 us before the first byte and keeps CS high at least 1 us between commands.
+
+Pins (FPGA - MCU): SCK P26 - PA5, MOSI P10 - PB5, MISO P12 - PB4, CS_N P20 - PA11, DONE P27 - PA6; reset button P43 (`rst_n`, pull-up); 12 MHz oscillator `clk_12m` P35 (wired from the UPduino `12M` header pin); LED P42.
 
 | Command | Opcode | Bytes after the opcode |
 |---|---|---|
