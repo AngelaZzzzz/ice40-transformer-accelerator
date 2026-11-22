@@ -31,9 +31,18 @@
 // smallest (8 x 8) and largest (256 x 256) shapes, an SPRAM address that
 // wraps past 0x3FFF, then random shapes, shifts and flags.
 //
+// FULL selects the length of the run. The default (FULL = 0) is short, so
+// that a waveform dump stays small: no 256 x 256 case, 10 random MATVECs
+// of up to 64 x 64, and shorter lane 0 traffic (about 30,000 cycles, most
+// of them the SPRAM fill). FULL = 1 runs everything listed above (about
+// 130,000 cycles):
+//   iverilog -g2012 -Pmatvec_engine_tb.FULL=1 ...
+//
 // Prints "TEST PASSED" or "TEST FAILED" on the last line.
 
-module matvec_engine_tb();
+module matvec_engine_tb #(
+    parameter bit FULL = 1'b0
+) ();
 
     import gpt_pkg::*;
 
@@ -244,8 +253,8 @@ module matvec_engine_tb();
         logic [4:0] rm1, cm1;
         logic [6:0] src, dst;
         int R, C;
-        rm1 = $urandom_range(31);
-        cm1 = $urandom_range(31);
+        rm1 = $urandom_range(FULL ? 31 : 7);
+        cm1 = $urandom_range(FULL ? 31 : 7);
         R   = 8 * (rm1 + 1);
         C   = 8 * (cm1 + 1);
         do begin
@@ -354,16 +363,17 @@ module matvec_engine_tb();
         run_mv(VR_X, VR_X, A_OUT, 5'd3, 5'd7, 4'd5, 1'b0, 1'b1);
         // Extremes: smallest, largest, SPRAM address wrap, shift 0
         run_mv(7'd0, 7'd1, 14'h1234, 5'd0, 5'd0, 4'd3, 1'b0, 1'b0);
-        run_mv(VR_H, VR_X, 14'h0000, 5'd31, 5'd31, 4'd15, 1'b0, 1'b0);
+        if (FULL)
+            run_mv(VR_H, VR_X, 14'h0000, 5'd31, 5'd31, 4'd15, 1'b0, 1'b0);
         run_mv(VR_XN, VR_Q, 14'h3FF0, 5'd3, 5'd7, 4'd8, 1'b1, 1'b0);
         run_mv(VR_XN, VR_Q, A_L0, 5'd7, 5'd7, 4'd0, 1'b0, 1'b0);
 
         // Other opcodes, then lane 0 borrow, then random MATVECs
         for (int op = 0; op < 9; op++)
             if (op != OP_MATVEC) run_other(op[3:0]);
-        run_borrow(3000);
-        repeat (40) run_random();
-        run_borrow(500);
+        run_borrow(FULL ? 3000 : 1000);
+        repeat (FULL ? 40 : 10) run_random();
+        run_borrow(FULL ? 500 : 200);
 
         $display("matvec_engine: %0d MATVECs, %0d errors", n_runs, n_err);
         if (n_err == 0) $display("TEST PASSED");
