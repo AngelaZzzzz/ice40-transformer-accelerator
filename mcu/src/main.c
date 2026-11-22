@@ -8,6 +8,7 @@
 #include "STM32L432KC.h"
 #include "display.h"
 #include "fpga.h"
+#include "generate.h"
 #include "model_load.h"
 #include "pins.h"
 #include "ps2.h"
@@ -94,6 +95,55 @@ static void ps2_test(void) {
     }
 }
 
+static void put_letters(const char *letters, int n, int generated) {
+    for (int i = 0; i < n; i++) {
+        display_putc(letters[i], generated);
+    }
+}
+
+static void app(void) {
+    char prefix[GENERATE_MAX_LETTERS + 1];
+    char word[GENERATE_MAX_LETTERS + 1];
+    int length = 0;
+    char key;
+
+    fpga_init();
+    model_load();
+    sample_init();
+    ps2_init();
+    display_init();
+    prefix[0] = '\0';
+
+    while (1) {
+        if (!ps2_get(&key)) {
+            continue;
+        }
+        if (key >= 'a' && key <= 'z') {
+            if (length < GENERATE_MAX_LETTERS) {
+                prefix[length++] = key;
+                prefix[length] = '\0';
+                display_putc(key, 0);
+            }
+        } else if (key == '\b') {
+            if (length > 0) {
+                prefix[--length] = '\0';
+                display_backspace();
+            }
+        } else if (key == '\n') {
+            int count = generate(prefix, word, sizeof word);
+            if (count < 0) {
+                printf("generate failed: %d\n", count);
+                count = 0;
+            }
+            display_newline();
+            put_letters(prefix, length, 0);
+            put_letters(word, count, 1);
+            display_newline();
+            put_letters(prefix, length, 0);
+        }
+    }
+}
+
 int main(void) {
     configureFlash();
     configureClock();
@@ -109,7 +159,7 @@ int main(void) {
             ps2_test();
             break;
         default:
-            // TODO(zach): implement the application main loop
+            app();
             break;
     }
 

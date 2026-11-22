@@ -92,9 +92,14 @@ iverilog -g2012 -o vga_demo_top_tb.vvp sim/tb/vga_demo_top_tb.sv syn/vga_demo/vg
 cd mem && vvp -n ../vga_demo_top_tb.vvp
 ```
 
-The PS/2 decoder has a host-side C test, run from the repository root:
+## Host C tests
+
+The PS/2 decoder and the next-letter sampler have host-side C tests, run from the repository root:
 
 ```
 gcc -std=c99 -Wall -Wextra -I mcu/src mcu/test/ps2_decode_test.c mcu/src/ps2_decode.c -o ps2_decode_test
 ./ps2_decode_test
+
+gcc -std=c99 -Wall -Wextra -I mcu/src mcu/test/sample_test.c mcu/src/sample.c -lm -o sample_test
+./sample_test
 ```
